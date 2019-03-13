@@ -2,7 +2,7 @@
 A collection of editor tools I use across projects in Unity
 
 ## Cubemap Generator
-### Status
+#### Status
 In development
 
 ## Mesh Tool
@@ -22,7 +22,7 @@ In development.
 ### Description
 Tracks object motion. 
 
-![MotionTracker_optimized](https://user-images.githubusercontent.com/20757517/54279076-62935100-4551-11e9-94ea-582638f058e8.gif)
+![MotionTracker_resized](https://user-images.githubusercontent.com/20757517/54280265-480ea700-4554-11e9-8418-e6005fe7a214.gif)
 
 ## Raycast Debugger
 ### Status
@@ -31,7 +31,7 @@ Complete
 ### Description
 Helps visualize raycasts in 2D
 
-![RaycastDebugger](https://user-images.githubusercontent.com/20757517/54279090-6a52f580-4551-11e9-90e7-b5947cc25d5f.gif)
+![RaycastDebugger_resized](https://user-images.githubusercontent.com/20757517/54280327-6e344700-4554-11e9-94e1-5bb153aa7205.gif)
 
 ## Ruler
 ### Status
@@ -40,7 +40,7 @@ Complete.
 ### Description
 Displays a ruler and position information in Scene View
 
-![Ruler_optimized](https://user-images.githubusercontent.com/20757517/54279677-ebf75300-4552-11e9-9833-1395565600bc.gif)
+![Ruler_resized](https://user-images.githubusercontent.com/20757517/54280532-f9154180-4554-11e9-8704-cdb6b9794b18.gif)
 
 ### Todo
 * Add guides functionality
@@ -57,3 +57,6 @@ Helps visualize 2D platformer AI decisions.
 * More features
 * Add example code
 
+## License
+
+This project is licensed under the [MIT License](LICENSE)
