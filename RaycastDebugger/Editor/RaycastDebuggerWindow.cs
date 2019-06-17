@@ -9,6 +9,8 @@ namespace Maumer
     public class RaycastDebuggerWindow : EditorWindow
     {
         public LayerMask layerMask;
+        public CastType castType;
+        public BoxcastParameters boxcastParameters;
         private Vector3 m_mouseDownPos;
         private Vector3 m_worldMousePos;
         private bool casting;
@@ -55,6 +57,14 @@ namespace Maumer
                 Undo.RecordObject(this, "changed RaycastDebugger layermask");
                 layerMask = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(inputLayerMask);
             }
+            castType = (CastType)EditorGUILayout.EnumPopup("Cast Type", castType);
+            switch (castType)
+            {
+                case CastType.Boxcast:
+
+                    boxcastParameters.OnGUI();
+                    break;
+            }
         }
 
         protected void OnSceneGUI(SceneView sceneView)
@@ -79,23 +89,54 @@ namespace Maumer
                 // cast a ray from origin to current mouse position
                 m_worldMousePos = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin; ;
                 m_worldMousePos.z = 0;
-                m_hit = Physics2D.Raycast((Vector2)m_mouseDownPos,
-                (m_worldMousePos - m_mouseDownPos).normalized,
-                 (m_worldMousePos - m_mouseDownPos).magnitude, layerMask.value);
-
-                // display ray in red
-                Handles.color = Color.red;
-                Handles.DrawLine(m_mouseDownPos,
-                m_worldMousePos);
-             
-                // if hit exists, draw a green indicator
-                if (m_hit.collider != null)
+                switch (castType)
                 {
-                    Handles.color = Color.green;
-                    Handles.DrawLine(m_mouseDownPos, m_hit.point);
-                    Handles.DrawWireDisc(m_hit.point, Vector3.forward,
-                    0.1f * HandleUtility.GetHandleSize(m_hit.point));
+                    case CastType.Raycast:
+                        m_hit = Physics2D.Raycast((Vector2)m_mouseDownPos,
+                        (m_worldMousePos - m_mouseDownPos).normalized,
+                         (m_worldMousePos - m_mouseDownPos).magnitude, layerMask.value);
+                        // display ray in red
+                        Handles.color = Color.red;
+                        Handles.DrawLine(m_mouseDownPos,
+                        m_worldMousePos);
+
+                        // if hit exists, draw a green indicator
+                        if (m_hit.collider != null)
+                        {
+                            Handles.color = Color.green;
+                            Handles.DrawLine(m_mouseDownPos, m_hit.point);
+                            Handles.DrawWireDisc(m_hit.point, Vector3.forward,
+                            0.1f * HandleUtility.GetHandleSize(m_hit.point));
+                        }
+                        break;
+                    case CastType.Boxcast:
+                        m_hit = Physics2D.BoxCast((Vector2)m_mouseDownPos,
+                        boxcastParameters.size, boxcastParameters.angle,
+                        (m_worldMousePos - m_mouseDownPos).normalized,
+                        (m_worldMousePos - m_mouseDownPos).magnitude, layerMask.value);
+                        // display ray in red
+                        Handles.color = Color.red;
+                        Handles.DrawLine(m_mouseDownPos,
+                        m_worldMousePos);
+                        var defaultMatrix = Handles.matrix;
+                        Handles.matrix = Matrix4x4.TRS(
+                            m_worldMousePos,
+                            Quaternion.AngleAxis(boxcastParameters.angle, Vector3.forward),
+                            Vector3.one);
+                        Handles.DrawWireCube(Vector2.zero, boxcastParameters.size);
+                        Handles.matrix = defaultMatrix;
+
+                        // if hit exists, draw a green indicator
+                        if (m_hit.collider != null)
+                        {
+                            Handles.color = Color.green;
+                            Handles.DrawLine(m_mouseDownPos, m_hit.point);
+                            Handles.DrawWireDisc(m_hit.point, Vector3.forward,
+                            0.1f * HandleUtility.GetHandleSize(m_hit.point));
+                        }
+                        break;
                 }
+
             }
         }
 
@@ -123,6 +164,25 @@ namespace Maumer
                 Handles.EndGUI();
                 // Handles.
                 // Handles.Label();
+            }
+        }
+
+        public enum CastType
+        {
+            Raycast,
+            Boxcast
+        }
+
+        [System.Serializable]
+        public class BoxcastParameters
+        {
+            public Vector2 size = Vector2.one;
+            public float angle;
+
+            internal void OnGUI()
+            {
+                size = EditorGUILayout.Vector2Field("size", size);
+                angle = EditorGUILayout.FloatField("angle", angle);
             }
         }
     }
