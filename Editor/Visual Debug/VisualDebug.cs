@@ -18,7 +18,7 @@ namespace Maumer
         public static List<DebugData> debugDatas { get { return debugDataDict.Values.ToList(); } }
         public static Dictionary<Object, DebugData> debugDataDict { get { return m_debugDataDict; } }
         static Dictionary<Object, DebugData> m_debugDataDict = new Dictionary<Object, DebugData>();
-        private static Object m_currentSender;
+        private static Object m_CurrentSender;
         private static Color m_activeDrawColor = Color.white;
         private static Color m_inactiveDrawColor = Color.grey;
         // static DebugData debugData = new DebugData();
@@ -37,10 +37,10 @@ namespace Maumer
         /// This is identical to calling Clear().
         /// </summary>
         [Conditional(runningInUnityEditor)]
-        public static void BeginRecord(Object sender)
+        public static void BeginSample(Object sender)
         {
             DebugData targetDebugData;
-            m_currentSender = sender;
+            m_CurrentSender = sender;
             if (m_debugDataDict.TryGetValue(sender, out targetDebugData))
             {
                 targetDebugData.frames.Clear();
@@ -65,7 +65,7 @@ namespace Maumer
         /// This is identical to calling Initialize().
         /// </summary>
         [Conditional(runningInUnityEditor)]
-        [System.Obsolete("Not necessary. Data will be refreshed when BeginRecord is called")]
+        [System.Obsolete("Not necessary anymore. Data will be refreshed when BeginRecord is called")]
         public static void EndRecord()
         {
             // debugData = new DebugData();
@@ -84,14 +84,18 @@ namespace Maumer
         [Conditional(runningInUnityEditor)]
         public static void BeginFrame(string description, Tag tag = Tag.None, bool keepInBackground = false)
         {
-            // m_currentSender = sender;
             DebugData targetDebugData;
-            if (!m_debugDataDict.TryGetValue(m_currentSender, out targetDebugData))
+            if(m_CurrentSender == null)
+            {
+                throw new System.Exception("BeginSample must be called before using BeginFrame");
+            }
+
+            if (!m_debugDataDict.TryGetValue(m_CurrentSender, out targetDebugData))
             {
                 targetDebugData = new DebugData();
-                m_debugDataDict.Add(m_currentSender, targetDebugData);
+                m_debugDataDict.Add(m_CurrentSender, targetDebugData);
             }
-            targetDebugData.logger = m_currentSender;
+            targetDebugData.logger = m_CurrentSender;
             targetDebugData.dontShowNextElementWhenFrameIsInBackground = false;
             targetDebugData.frames.Add(new Frame(description, keepInBackground, targetDebugData.frames.Count));
         }
@@ -104,7 +108,7 @@ namespace Maumer
         public static void DontShowNextElementWhenFrameIsInBackground()
         {
             DebugData targetDebugData;
-            if (m_debugDataDict.TryGetValue(m_currentSender, out targetDebugData))
+            if (m_debugDataDict.TryGetValue(m_CurrentSender, out targetDebugData))
             {
                 targetDebugData.dontShowNextElementWhenFrameIsInBackground = true;
             }
@@ -128,7 +132,6 @@ namespace Maumer
             // }
 
         }
-
 
         /// <summary>
         /// Set the active and inactive colours.
@@ -184,7 +187,7 @@ namespace Maumer
         static void AddArtistToCurrentFrame(SceneArtist artist)
         {
             DebugData targetDebugData;
-            if (m_debugDataDict.TryGetValue(m_currentSender, out targetDebugData))
+            if (m_debugDataDict.TryGetValue(m_CurrentSender, out targetDebugData))
             {
                 if (targetDebugData.frames.Count == 0)
                 {

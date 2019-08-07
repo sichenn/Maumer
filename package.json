@@ -1,0 +1,14 @@
+{
+    "name": "com.sichenn.maumer",
+    "displayName": "Maumer Editor Tools",
+    "description": "Editor tools for common editor features and gameplay debugging",
+    "version": "0.0.1",
+    "category": "Editor",
+    "samples": [
+        {
+            "displayName": "Visual Debug Demo",
+            "description": "Showcase how to write scripts that make use of Visual Debug",
+            "path": "Samples~/Visual Debug Demo"
+        }
+    ]
+}

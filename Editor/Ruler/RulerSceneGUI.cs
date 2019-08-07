@@ -14,7 +14,6 @@ namespace Maumer
         public static bool show = false;
         public static float startAngle = 0;
         public static int rulerDivisions = 0;
-        private static int top = 0;
         private static Vector3 m_mousePosInWorld;
         private static Camera m_sceneViewCamera;
         private static Color k_lineColor = new Color(.22f, .22f, .22f);

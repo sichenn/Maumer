@@ -5,14 +5,14 @@ using UnityEditor;
 using Maumer;
 using Maumer.Internal;
 
-namespace TP.Experimental
+namespace Maumer
 {
     public class VisualDebugEditorWindow : EditorWindow
     {
         private static bool displayAll;
         private static Dictionary<Object, DebugDataEditorProperties> dataWatchDict = new Dictionary<Object, DebugDataEditorProperties>();
 
-        [MenuItem("Tools/TP/Visual Debugger")]
+        [MenuItem("Window/Maumer/Visual Debugger")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(VisualDebugEditorWindow), false, "Visual Debugger");
@@ -51,12 +51,11 @@ namespace TP.Experimental
             {
                 // EditorGUILayout.LabelField(entry.Value.data.loggerName, EditorStyles.boldLabel);
                 EditorGUILayout.BeginHorizontal();
-                entry.Value.unfold = EditorGUILayout.Foldout(entry.Value.unfold, entry.Value.data.loggerName);
-                entry.Value.show = EditorGUILayout.Toggle("Show", entry.Value.show);
+                entry.Value.show = EditorGUILayout.Foldout(entry.Value.show, entry.Value.data.loggerName, true);
                 EditorGUILayout.EndHorizontal();
-                if (entry.Value.unfold)
+                if (entry.Value.show)
                 {
-                    EditorGUI.BeginDisabledGroup(!entry.Value.show || entry.Value.data.frames.Count != 0);
+                    EditorGUI.BeginDisabledGroup(!entry.Value.show || entry.Value.data.frames.Count == 0);
 
                     GUILayout.Label(string.Format("Frame {0} of {1}", entry.Value.currentFrameIndex + 1, entry.Value.data.frames.Count));
 
@@ -174,7 +173,6 @@ namespace TP.Experimental
             }
             public int currentFrameIndex;
             public bool show;
-            public bool unfold;
 
             /// <summary>
             /// 

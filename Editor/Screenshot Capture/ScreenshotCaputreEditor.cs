@@ -5,15 +5,15 @@ using UnityEditor;
 
 namespace Maumer
 {
-    [CustomEditor(typeof(ScreenRecorder))]
+    [CustomEditor(typeof(ScreenshotCapture))]
     public class ScreenRecorderEditor : Editor
     {
 
-        private ScreenRecorder recorder
+        private ScreenshotCapture recorder
         {
             get
             {
-                return target as ScreenRecorder;
+                return target as ScreenshotCapture;
             }
         }
         public override void OnInspectorGUI()
