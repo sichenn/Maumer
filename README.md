@@ -7,7 +7,7 @@ A collection of useful editor tools for common in-editor features
 Run `git submodule add -b [branchName] git@github.com:sichenn/Maumer.git path/to/folder`, 
 e.g. `git submodule add git@github.com:sichenn/Maumer.git Assets/Plugins/Maumer`
 ### Option 3: [Unity Git Package](https://neogeek.dev/creating-custom-packages-for-unity-2018.3/)
-Import Kore by adding `"com.sichenn.maumer": "https://github.com/sichenn/Maumer.git"` to `Packages/manifest.json`
+Import as Unity Package by adding `"com.sichenn.maumer": "https://github.com/sichenn/Maumer.git"` to `Packages/manifest.json`
 
 ## Features
 ### Cubemap Generator (In development)
