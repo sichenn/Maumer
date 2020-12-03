@@ -14,8 +14,6 @@ Import Kore by adding `"com.sichenn.maumer": "https://github.com/sichenn/Maumer.
 
 ### Mesh Tool
 Visualizes mesh data such as normals and positions
-Todo:
-* Optimization.
 
 ### Motion Tracker (In development)
 
@@ -38,14 +36,12 @@ Displays a ruler and position information in Scene View
 Todo:
 * Add guides functionality
 
-### Visual Debug (In development)
+### Visual Debug
 
 ![VisualDebugger](https://user-images.githubusercontent.com/20757517/62638415-fe45b380-b96f-11e9-8bf2-f9cea4413bd4.gif)
 
-Helps visualize step-by-step game logic.
+Visualize single-frame game logic. e.g. AI pathfinding or complex algorithms
 
-Todo:
-* Testing
 
 ## License
 
